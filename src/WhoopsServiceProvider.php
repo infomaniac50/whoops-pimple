@@ -42,13 +42,15 @@ class WhoopsServiceProvider implements ServiceProviderInterface
 
     private function registerErrorPageHandler(Container $container)
     {
-        $container['whoops.error_page_handler'] = function () {
-            if (Misc::isCommandLine()) {
-                return new PlainTextHandler;
-            } else {
-                return new PrettyPageHandler;
-            }
-        };
+        if (!isset($container['whoops.error_page_handler'])) {
+            $container['whoops.error_page_handler'] = function () {
+                if (Misc::isCommandLine()) {
+                    return new PlainTextHandler;
+                } else {
+                    return new PrettyPageHandler;
+                }
+            };
+        }
     }
 
     private function registerExceptionHandler(Container $container)
