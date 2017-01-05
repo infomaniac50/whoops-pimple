@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Whoops\Handler\PlainTextHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
+use Whoops\Util\Misc;
 
 class WhoopsServiceProvider implements ServiceProviderInterface
 {
@@ -42,7 +43,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
     private function registerErrorPageHandler(Container $container)
     {
         $container['whoops.error_page_handler'] = function () {
-            if (PHP_SAPI === 'cli') {
+            if (Misc::isCommandLine()) {
                 return new PlainTextHandler;
             } else {
                 return new PrettyPageHandler;
